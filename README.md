@@ -23,6 +23,7 @@ cp .env_example .env
 nano .env
 ```
 Then change `API_ID` and `API_HASH` to yours (you can find it on the [website](https://my.telegram.org)). Also you can change other projects parameters
+
 4. Run this command to start the Cleaner
 ```bash
 python main.py
