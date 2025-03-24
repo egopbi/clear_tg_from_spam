@@ -17,7 +17,7 @@ async def register_session():
     if API_ID == 1234 or  API_HASH == 'abbas':
         raise ValueError("API_ID or API_HASH doesn't fill")
     
-    session_name = SESSIONS_DIRECTORY + 'session_' + str(random.randint(0, 99999))
+    session_name = SESSIONS_DIRECTORY + str(random.randint(0, 99999))
     session = await get_tg_client(session_name=session_name, proxy=None)
     async with session:
         user_data = await session.get_me()
@@ -26,9 +26,6 @@ async def register_session():
  
 
 async def get_tg_client(session_name: str, proxy: str | None) -> TelegramClient:
-    if API_ID == 1234 or  API_HASH == 'abbas':
-        raise ValueError("API_ID or API_HASH doesn't fill")
-
     proxy_dict = {
         "scheme": proxy.split(":")[0],
         "username": proxy.split(":")[1].split("//")[1],

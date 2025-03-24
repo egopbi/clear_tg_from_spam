@@ -27,22 +27,24 @@ COUNT_OF_MY_MESSAGE_TRIGGER_FOR_PERSONAL_CHAT = os.getenv(
  
 
 async def main():
-    try:
-        start = time.time()
-        for session in get_session_files(SESSIONS_DIRECTORY):
-            client = TelegramClient(session=session, api_id=API_ID, api_hash=API_HASH)
-            await clear_spam_dialogs(client)
-        
-        end = time.time()
-        logger.success(f'Measure time of execution "{main.__name__}" function: {end-start} s')
-        
-    except FileNotFoundError:
+    start = time.time()
+    os.makedirs(SESSIONS_DIRECTORY, exist_ok=True)
+
+    if len(os.listdir(SESSIONS_DIRECTORY)) == 0:
         logger.error(f"You need to create at least one session by register_session()")
         logger.info("Creating session")
         try:
             await register_session()
         except ValueError:
             logger.error(f'Please fill your API_ID and API_HASH')
+            return
+        
+    for session in get_session_files(SESSIONS_DIRECTORY):
+        client = TelegramClient(session=session, api_id=API_ID, api_hash=API_HASH)
+        await clear_spam_dialogs(client)
+        
+    end = time.time()
+    logger.success(f'Measure time of execution "{main.__name__}" function: {end-start} s')
     
 
 if __name__ == '__main__':
